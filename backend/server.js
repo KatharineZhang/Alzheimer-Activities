@@ -1,30 +1,47 @@
+// chatgpt assisted creation of this code!
+
 const express = require('express');
-const dotenv = require('dotenv');
+const mysql = require('mysql2');
 const multer = require('multer');
-const path = require('path');
-const { mysqlConnection } = require('./config/db');
-const imageRoutes = require('./routes/imageRoutes');
-
-dotenv.config();
-
 const app = express();
+const port = 3001;  // Port for the server to listen on
 
-// Middleware for handling JSON data
-app.use(express.json());
+// Set up MySQL connection
+const db = mysql.createConnection({
+    host: 'localhost',  // MySQL server address (usually localhost)
+    user: 'root',  // Your MySQL username
+    password: 'Hackathon2025!!',  // Your MySQL password
+    database: 'hack'  // Your MySQL database name
+  });
+  
+  // Connect to the database
+  db.connect((err) => {
+    if (err) {
+      console.error('Could not connect to MySQL:', err);
+    } else {
+      console.log('Connected to MySQL!');
+    }
+  });
+  
+  // Set up multer (for file uploads)
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
-// Serve uploaded images
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
-// Image upload routes
-app.use('/api/images', imageRoutes);
-
-// Set up the database connection
-mysqlConnection.connect((err) => {
-  if (err) throw err;
-  console.log('Connected to the MySQL database');
-});
-
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+// Route for uploading an image
+app.post('/upload', upload.single('image'), (req, res) => {
+    const imageData = req.file.buffer;  // Get image data from the request
+    const imageName = req.file.originalname;  // Get original image name
+  
+    const query = 'INSERT INTO images (image_data, image_name) VALUES (?, ?)';
+    db.query(query, [imageData, imageName], (err, result) => {
+      if (err) {
+        return res.status(500).send('Error saving image to database');
+      }
+      res.send('Image uploaded successfully');
+    });
+  });
+  
+  // Start the server
+app.listen(port, () => {
+    console.log(`Server running at http://localhost:${port}`);
+  });
