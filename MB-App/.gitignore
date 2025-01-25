@@ -8,6 +8,8 @@ node_modules/
 dist/
 web-build/
 expo-env.d.ts
+.expo/README.md/
+.expo/settings.json/
 
 # Native
 *.orig.*
