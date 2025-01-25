@@ -1,9 +1,11 @@
 const express = require('express');
 const mysql = require('mysql2');
 const multer = require('multer');
-const path = require('path');
 const fs = require('fs');
-const cors = require('cors'); // Import CORS
+const path = require('path');
+const cors = require('cors');
+const { Buffer } = require('buffer');
+
 const app = express();
 const port = 3001;
 
@@ -11,8 +13,8 @@ const port = 3001;
 const db = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'Hackathon2025!!',
-  database: 'hack',
+  password: 'Hackathon2025!!', // Replace with your password
+  database: 'hack', // Replace with your database name
 });
 
 // Connect to the database
@@ -25,43 +27,28 @@ db.connect((err) => {
 });
 
 // Enable CORS for all routes
-app.use(cors()); // This allows cross-origin requests
+app.use(cors());
 
-// Set up multer to store images on disk
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    const uploadPath = 'uploads/';
-    // Ensure the uploads folder exists
-    if (!fs.existsSync(uploadPath)) {
-      fs.mkdirSync(uploadPath, { recursive: true });  // Create folder recursively
-      console.log('Uploads folder created');
-    } else {
-      console.log('Uploads folder already exists');
-    }
-    cb(null, uploadPath);
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname));  // Use timestamp as filename
-  },
-});
-
+// Set up multer storage configuration for file handling
+const storage = multer.memoryStorage(); // Store images in memory as Buffer
 const upload = multer({ storage: storage });
 
-// Middleware to parse JSON bodies (needed for form data like activity)
+// Middleware to parse JSON bodies
 app.use(express.json());
 
-// Route for uploading an image
+// Upload route to handle image uploads
 app.post('/upload', upload.single('image'), (req, res) => {
-  const { activity } = req.body; // Get activity from request body
-  const imageName = req.file.filename; // Get the stored file name
+  const { activity } = req.body;  // Get activity from request body
+  const imageData = req.file.buffer; // Get image file as buffer
+  const imageName = req.file.originalname; // Get the original image file name
 
-  if (!activity) {
-    return res.status(400).send('Activity is required');
+  if (!activity || !imageData) {
+    return res.status(400).send('Activity and image are required');
   }
 
   // Insert image data into the database
-  const query = 'INSERT INTO images (image_name, activity) VALUES (?, ?)';
-  db.query(query, [imageName, activity], (err, result) => {
+  const query = 'INSERT INTO images (image_name, activity, image_data) VALUES (?, ?, ?)';
+  db.query(query, [imageName, activity, imageData], (err, result) => {
     if (err) {
       console.error('Error saving image to database:', err);
       return res.status(500).send('Error saving image to database');
@@ -70,19 +57,7 @@ app.post('/upload', upload.single('image'), (req, res) => {
   });
 });
 
-// Endpoint to get images from the database
-app.get('/images', (req, res) => {
-  const query = 'SELECT * FROM images';
-  db.query(query, (err, results) => {
-    if (err) {
-      console.error('Error fetching images:', err);
-      return res.status(500).json({ message: 'Error fetching images', error: err });
-    }
-    res.status(200).json({ images: results });
-  });
-});
-
-// Static file serving for uploaded images
+// Static file serving for uploaded images (if you want to serve them later)
 app.use('/uploads', express.static('uploads'));
 
 // Start the server
