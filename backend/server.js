@@ -32,14 +32,16 @@ app.post('/upload', upload.single('image'), (req, res) => {
     const imageData = req.file.buffer;  // Get image data from the request
     const imageName = req.file.originalname;  // Get original image name
   
-    const query = 'INSERT INTO images (image_data, image_name) VALUES (?, ?)';
-    db.query(query, [imageData, imageName], (err, result) => {
+    const query = 'INSERT INTO images (image_name, activity, image_data) VALUES (?, ?, ?)';
+    db.query(query, [imageName, activity, imageData], (err, result) => {
       if (err) {
+        console.error('Error saving image to database:', err);
         return res.status(500).send('Error saving image to database');
       }
-      res.send('Image uploaded successfully');
+      res.status(200).send('Image uploaded successfully');
     });
   });
+  
 
 // Endpoint to get images from the database
 app.get('/', (req, res) => {
