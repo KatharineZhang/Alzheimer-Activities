@@ -40,6 +40,17 @@ app.post('/upload', upload.single('image'), (req, res) => {
       res.send('Image uploaded successfully');
     });
   });
+
+// Endpoint to get images from the database
+app.get('/', (req, res) => {
+  mysqlConnection.query('SELECT * FROM images', (err, results) => {
+    
+    if (err) {
+      return res.status(500).json({ message: 'Error fetching images', error: err });
+    }
+    res.status(200).json({ images: results });
+  });
+});
   
   // Start the server
 app.listen(port, () => {
