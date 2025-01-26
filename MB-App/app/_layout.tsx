@@ -4,6 +4,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons'; // Import icons fro
 
 const Layout = () => {
   return (
+    
     <Tabs screenOptions={{ headerShown: false }}>
       <Tabs.Screen
         name="index"

@@ -8,7 +8,7 @@ type levelFilterType = {
   cogEngagement: bigint, // low - 0, medium - 1, high - 2
   sensoryLvl: bigint, // low - 0, medium - 1, high - 2
   physLvl: bigint, // low - 0, medium - 1, high - 2
-  InOrOut: bigint // Indoor is 1, outdoor is 0
+  InOrOut: bigint // Indoor is 1, outdoor is 0, either is 2
 
 };
 
