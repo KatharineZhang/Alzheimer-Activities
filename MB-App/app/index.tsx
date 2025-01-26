@@ -3,6 +3,25 @@ import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import Animated, { Easing, useSharedValue, useAnimatedStyle, withSpring, withTiming, runOnJS } from 'react-native-reanimated';
 
+type levelFilterType = {
+  socialLvl: bigint, // low - 0, medium - 1, high - 2
+  cogEngagement: bigint, // low - 0, medium - 1, high - 2
+  sensoryLvl: bigint, // low - 0, medium - 1, high - 2
+  physLvl: bigint, // low - 0, medium - 1, high - 2
+  InOrOut: bigint // Indoor is 1, outdoor is 0
+
+};
+
+
+type activity= {
+  levelFilters: levelFilterType,
+  Rank: bigint, // low - 0, medium - 1, high - 2
+  Description: string,
+  Steps: string[],
+  Materials: string[]
+};
+
+
 // Dummy list of images for now
 const images = [
   require('../images/image0.jpg'),
