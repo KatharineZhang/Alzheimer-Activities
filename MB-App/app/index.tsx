@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import Animated, { Easing, useSharedValue, useAnimatedStyle, withSpring, withTiming, runOnJS } from 'react-native-reanimated';
+import Animated, { Easing, useSharedValue, useAnimatedStyle, withTiming, runOnJS } from 'react-native-reanimated';
 
 type levelFilterType = {
   socialLvl: bigint, // low - 0, medium - 1, high - 2
@@ -61,7 +61,11 @@ const ActivitySuggestionsScreen = () => {
         </View>
 
         <View style={styles.swipeContainer}>
-          <Animated.Image source={images[currentImageIndex]} style={[styles.activityImage, animatedStyle]} />
+          <Animated.Image
+            source={images[currentImageIndex].source}
+            style={[styles.activityImage, animatedStyle]}
+          />
+          <Text style={styles.caption}>{images[currentImageIndex].caption}</Text>
         </View>
 
         <View style={styles.buttonsContainer}>
@@ -99,7 +103,7 @@ const styles = StyleSheet.create({
     color: '#ffffff',
   },
   title: {
-    fontSize: 24,
+    fontSize: 25,
     fontFamily: 'Fuzzy Bubbles',
     color: '#342758',
   },
@@ -113,6 +117,13 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 300,
     borderRadius: 10,
+  },
+  caption: {
+    fontSize: 16,
+    fontStyle: 'italic',
+    color: '#555555',
+    textAlign: 'center',
+    marginTop: 10,
   },
   buttonsContainer: {
     flexDirection: 'row',

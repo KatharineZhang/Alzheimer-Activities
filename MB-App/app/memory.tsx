@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 30,
-        fontFamily: 'FuzzyBubbles', // Custom font
+        fontFamily: 'San Francisco', // Custom font
         color: '#333',
     },
     tabBar: {
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
     },
     tabText: {
         fontSize: 20,
-        fontFamily: 'FuzzyBubbles', // Make sure the custom font is loaded
+        fontFamily: 'San Francisco', // Make sure the custom font is loaded
         color: '#333',
     },
     tabContent: {
@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
     imageName: {
         fontSize: 14,
         color: '#333',
-        fontFamily: 'FuzzyBubbles', // Match the font style if needed
+        fontFamily: 'San Francisco', // Match the font style if needed
     },
 });
 
