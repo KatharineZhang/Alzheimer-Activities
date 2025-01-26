@@ -7,11 +7,21 @@ const DoneTab = () => {
             <View style={styles.imageRow}>
                 <View style={styles.imageContainer}>
                     <Image source={require('./images/cards.jpg')} style={styles.image} />
-                    <Text style={styles.imageName}>cards.jpg</Text>
+                    <Text style={styles.imageName}>Playing Cards</Text>
                 </View>
                 <View style={styles.imageContainer}>
                     <Image source={require('./images/dancing.jpg')} style={styles.image} />
-                    <Text style={styles.imageName}>dancing.jpg</Text>
+                    <Text style={styles.imageName}>Dancing</Text>
+                </View>
+            </View>
+            <View style={styles.imageRow}>
+            <View style={styles.imageContainer}>
+                    <Image source={require('./images/jenga.jpg')} style={styles.image} />
+                    <Text style={styles.imageName}>Jenga</Text>
+                </View>
+                <View style={styles.imageContainer}>
+                    <Image source={require('./images/stretching.jpg')} style={styles.image} />
+                    <Text style={styles.imageName}>Stretching</Text>
                 </View>
             </View>
         </View>
@@ -23,12 +33,22 @@ const ToDoTab = () => {
         <View style={styles.tabContent}>
             <View style={styles.imageRow}>
                 <View style={styles.imageContainer}>
-                    <Image source={require('./images/jenga.jpg')} style={styles.image} />
-                    <Text style={styles.imageName}>jenga.jpg</Text>
+                    <Image source={require('./images/uploadimage2.png')} style={styles.image} />
+                    <Text style={styles.imageName}>Bird Watching</Text>
                 </View>
                 <View style={styles.imageContainer}>
-                    <Image source={require('./images/stretching.jpg')} style={styles.image} />
-                    <Text style={styles.imageName}>stretching.jpg</Text>
+                    <Image source={require('./images/uploadimage2.png')} style={styles.image} />
+                    <Text style={styles.imageName}>Laundry</Text>
+                </View>
+            </View>
+            <View style={styles.imageRow}>
+                <View style={styles.imageContainer}>
+                    <Image source={require('./images/uploadimage2.png')} style={styles.image} />
+                    <Text style={styles.imageName}>Gardening</Text>
+                </View>
+                <View style={styles.imageContainer}>
+                    <Image source={require('./images/uploadimage2.png')} style={styles.image} />
+                    <Text style={styles.imageName}>Pet Therapy</Text>
                 </View>
             </View>
         </View>
@@ -45,6 +65,11 @@ const App = () => {
 
     return (
         <View style={{ flex: 1 }}>
+            {/* Title Section */}
+            <View style={styles.titleContainer}>
+                <Text style={styles.title}>Memory Log</Text>
+            </View>
+
             <ScrollView
                 horizontal
                 contentContainerStyle={styles.tabBar}
@@ -70,13 +95,23 @@ const App = () => {
 };
 
 const styles = StyleSheet.create({
+    titleContainer: {
+        alignItems: 'center',
+        marginBottom: 20,  // Adjust margin for spacing
+        marginTop: 30,
+    },
+    title: {
+        fontSize: 30,
+        fontFamily: 'FuzzyBubbles', // Custom font
+        color: '#333',
+    },
     tabBar: {
-        flexDirection: 'row',
+        width: '100%',    // Set width to 200 units
         backgroundColor: '#eee',
+        height: 80,   // Set height to 100 units
         paddingVertical: 10,
         justifyContent: 'center', // Center the tabs horizontally
         alignItems: 'center', // Ensure the tabs are centered vertically
-        width: '100%', // Make sure the container takes the full width
     },
     tabButton: {
         paddingHorizontal: 20,
@@ -92,20 +127,15 @@ const styles = StyleSheet.create({
         color: '#000',  // Customize the selected tab text color
     },
     tabText: {
-        fontSize: 24,
+        fontSize: 20,
         fontFamily: 'FuzzyBubbles', // Make sure the custom font is loaded
         color: '#333',
     },
     tabContent: {
-        flex: 1,
+        flex: 20,
         justifyContent: 'center',
         alignItems: 'center',
         padding: 20,
-    },
-    tabTitle: {
-        fontSize: 30,
-        fontFamily: 'FuzzyBubbles', // Custom font
-        marginBottom: 20,
     },
     imageRow: {
         flexDirection: 'row',
